@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
+<title>Tuesday — Jimmity Workouts</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<meta name="theme-color" content="#0a0a0a">
+</head>
+<body>
+
+<div class="topbar">
+  <a class="back" href="index.html">← Back</a>
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">●</button>
+</div>
+
+<div class="wrap">
+  <div class="day-title">
+    <h1>Tuesday</h1>
+    <div class="meta">Legs · Unilateral Strength</div>
+  </div>
+
+  <div class="preview-list">
+    <div class="preview-item"><span class="pi-name">Pistol Squats</span><span class="pi-detail">4 sets · 6–10/leg</span></div>
+    <div class="preview-item"><span class="pi-name">Nordic Curl Negatives</span><span class="pi-detail">4 sets · 6–8</span></div>
+    <div class="preview-item"><span class="pi-name">Bulgarian Split Squats</span><span class="pi-detail">3 sets · 12–15/leg</span></div>
+    <div class="preview-item"><span class="pi-name">1.5-Rep Squats</span><span class="pi-detail">3 sets · 15–20</span></div>
+    <div class="preview-item"><span class="pi-name">Single-Leg Glute Bridges</span><span class="pi-detail">3 sets · 15–20/leg</span></div>
+    <div class="preview-item"><span class="pi-name">Single-Leg Calf Raises</span><span class="pi-detail">4 sets · 20/leg</span></div>
+  </div>
+
+  <button class="start-btn" id="startBtn">Start Workout</button>
+</div>
+
+<div class="session" id="session">
+  <div class="session-top">
+    <span class="session-progress" id="sessionProgress">1 / 37</span>
+    <button class="exit-btn" id="exitBtn" aria-label="Exit">✕</button>
+  </div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+
+  <div class="session-body">
+    <span class="mode-tag" id="modeTag">Work</span>
+    <div class="ex-name" id="exName">—</div>
+    <div class="ex-cue" id="exCue"></div>
+    <div class="timer" id="timer">0:00</div>
+    <div class="set-info" id="setInfo"></div>
+    <div class="up-next" id="upNext">Up next</div>
+  </div>
+
+  <div class="session-controls">
+    <button class="ctrl-btn" id="skipBtn">Skip</button>
+    <button class="ctrl-btn primary" id="pauseBtn">Pause</button>
+  </div>
+</div>
+
+<div class="done-screen" id="doneScreen">
+  <h2>Done.</h2>
+  <p>Tuesday's work is in the bank.</p>
+  <a class="ctrl-btn primary" href="index.html">Back to Days</a>
+</div>
+
+<script src="assets/app.js"></script>
+<script>
+const PLAN = {
+  day: "Tuesday",
+  items: [
+  {
+    "type": "rest",
+    "name": "Get Ready",
+    "cue": "Leg day. Unilateral strength.",
+    "seconds": 15,
+    "setLabel": ""
+  },
+  {
+    "type": "work",
+    "group": "Legs",
+    "name": "Pistol Squats",
+    "cue": "Full depth on one leg. Lower slowly to a chair for balance if needed.",
+    "seconds": 50,
+    "setLabel": "Set 1 of 4 \u00b7 6\u201310 / leg"
+  },
+  {
+    "type": "rest",
+    "name": "Rest",
+    "cue": "",
+    "seconds": 120,
+    "setLabel": ""
+  },
+  {
+    "type": "work",
+    "group": "Legs",
+    "name": "Pistol Squats",
+    "cue": "Full depth on one leg. Lower slowly to a chair for balance if needed.",
+    "seconds": 50,
+    "setLabel": "Set 2 of 4 \u00b7 6\u201310 / leg"
+  },
+  {
+    "type": "rest",
+    "name": "Rest",
+    "cue": "",
+    "seconds": 120,
+    "setLabel": ""
+  },
+  {
+    "type": "work",
+    "group": "Legs",
+    "name": "Pistol Squats",
+    "cue": "Full depth on one leg. Lower slowly to a chair for balance if needed.",
+    "seconds": 50,
+    "setLabel": "Set 3 of 4 \u00b7 6\u201310 / leg"
+  },
+  {
+    "type": "rest",
+    "name": "Rest",
+    "cue": "",
+    "seconds": 120,
+    "setLabel": ""
+  },
+  {
+    "type": "work",
+    "group": "Legs",
+    "name": "Pistol Squats",
+    "cue": "Full depth on one leg. Lower slowly to a chair for balance if needed.",
+    "seconds": 50,
+    "setLabel": "Set 4 of 4 \u00b7 6\u201310 / leg"
+  },
+  {
+    "type": "work",
+    "group": "Legs",
+    "name": "Nordic Hamstring Curl Negatives",
+    "cue": "Anchor feet, lower body to the floor as slowly as possible",
+    "seconds": 40,
+    "setLabel": "Set 1 of 4 \u00b7 6\u20138"
+  },
+  {
+    "type": "rest",
+    "name": "Rest",
+    "cue": "",
+    "seconds": 120,
+    "setLabel": ""
+  },
+  {
+    "type": "work",
+    "group": "Legs",
+    "name": "Nordic Hamstring Curl Negatives",
+    "cue": "Anchor feet, lower body to the floor as slowly as possible",
+    "seconds": 40,
+    "setLabel": "Set 2 of 4 \u00b7 6\u20138"
+  },
+  {
+    "type": "rest",
+    "name": "Rest",
+    "cue": "",
+    "seconds": 120,
+    "setLabel": ""
+  },
+  {
+    "type": "work",
+    "group": "Legs",
+    "name": "Nordic Hamstring Curl Negatives",
+    "cue": "Anchor feet, lower body to the floor as slowly as possible",
+    "seconds": 40,
+    "setLabel": "Set 3 of 4 \u00b7 6\u20138"
+  },
+  {
+    "type": "rest",
+    "name": "Rest",
+    "cue": "",
+    "seconds": 120,
+    "setLabel": ""
+  },
+  {
+    "type": "work",
+    "group": "Legs",
+    "name": "Nordic Hamstring Curl Negatives",
+    "cue": "Anchor feet, lower body to the floor as slowly as possible",
+    "seconds": 40,
+    "setLabel": "Set 4 of 4 \u00b7 6\u20138"
+  },
+  {
+    "type": "work",
+    "group": "Legs",
+    "name": "Bulgarian Split Squats",
+    "cue": "Rear foot elevated. Pause 2 sec at the bottom.",
+    "seconds": 50,
+    "setLabel": "Set 1 of 3 \u00b7 12\u201315 / leg"
+  },
+  {
+    "type": "rest",
+    "name": "Rest",
+    "cue": "",
+    "seconds": 90,
+    "setLabel": ""
+  },
+  {
+    "type": "work",
+    "group": "Legs",
+    "name": "Bulgarian Split Squats",
+    "cue": "Rear foot elevated. Pause 2 sec at the bottom.",
+    "seconds": 50,
+    "setLabel": "Set 2 of 3 \u00b7 12\u201315 / leg"
+  },
+  {
+    "type": "rest",
+    "name": "Rest",
+    "cue": "",
+    "seconds": 90,
+    "setLabel": ""
+  },
+  {
+    "type": "work",
+    "group": "Legs",
+    "name": "Bulgarian Split Squats",
+    "cue": "Rear foot elevated. Pause 2 sec at the bottom.",
+    "seconds": 50,
+    "setLabel": "Set 3 of 3 \u00b7 12\u201315 / leg"
+  },
+  {
+    "type": "work",
+    "group": "Legs",
+    "name": "1.5-Rep Bodyweight Squats",
+    "cue": "Down, halfway up, back down, then full stand = 1 rep",
+    "seconds": 50,
+    "setLabel": "Set 1 of 3 \u00b7 15\u201320"
+  },
+  {
+    "type": "rest",
+    "name": "Rest",
+    "cue": "",
+    "seconds": 90,
+    "setLabel": ""
+  },
+  {
+    "type": "work",
+    "group": "Legs",
+    "name": "1.5-Rep Bodyweight Squats",
+    "cue": "Down, halfway up, back down, then full stand = 1 rep",
+    "seconds": 50,
+    "setLabel": "Set 2 of 3 \u00b7 15\u201320"
+  },
+  {
+    "type": "rest",
+    "name": "Rest",
+    "cue": "",
+    "seconds": 90,
+    "setLabel": ""
+  },
+  {
+    "type": "work",
+    "group": "Legs",
+    "name": "1.5-Rep Bodyweight Squats",
+    "cue": "Down, halfway up, back down, then full stand = 1 rep",
+    "seconds": 50,
+    "setLabel": "Set 3 of 3 \u00b7 15\u201320"
+  },
+  {
+    "type": "work",
+    "group": "Legs",
+    "name": "Single-Leg Glute Bridges",
+    "cue": "Squeeze glutes 2 sec at the top",
+    "seconds": 45,
+    "setLabel": "Set 1 of 3 \u00b7 15\u201320 / leg"
+  },
+  {
+    "type": "rest",
+    "name": "Rest",
+    "cue": "",
+    "seconds": 60,
+    "setLabel": ""
+  },
+  {
+    "type": "work",
+    "group": "Legs",
+    "name": "Single-Leg Glute Bridges",
+    "cue": "Squeeze glutes 2 sec at the top",
+    "seconds": 45,
+    "setLabel": "Set 2 of 3 \u00b7 15\u201320 / leg"
+  },
+  {
+    "type": "rest",
+    "name": "Rest",
+    "cue": "",
+    "seconds": 60,
+    "setLabel": ""
+  },
+  {
+    "type": "work",
+    "group": "Legs",
+    "name": "Single-Leg Glute Bridges",
+    "cue": "Squeeze glutes 2 sec at the top",
+    "seconds": 45,
+    "setLabel": "Set 3 of 3 \u00b7 15\u201320 / leg"
+  },
+  {
+    "type": "work",
+    "group": "Legs",
+    "name": "Single-Leg Calf Raises",
+    "cue": "Stand on step edge, full range of motion",
+    "seconds": 35,
+    "setLabel": "Set 1 of 4 \u00b7 20 / leg"
+  },
+  {
+    "type": "rest",
+    "name": "Rest",
+    "cue": "",
+    "seconds": 45,
+    "setLabel": ""
+  },
+  {
+    "type": "work",
+    "group": "Legs",
+    "name": "Single-Leg Calf Raises",
+    "cue": "Stand on step edge, full range of motion",
+    "seconds": 35,
+    "setLabel": "Set 2 of 4 \u00b7 20 / leg"
+  },
+  {
+    "type": "rest",
+    "name": "Rest",
+    "cue": "",
+    "seconds": 45,
+    "setLabel": ""
+  },
+  {
+    "type": "work",
+    "group": "Legs",
+    "name": "Single-Leg Calf Raises",
+    "cue": "Stand on step edge, full range of motion",
+    "seconds": 35,
+    "setLabel": "Set 3 of 4 \u00b7 20 / leg"
+  },
+  {
+    "type": "rest",
+    "name": "Rest",
+    "cue": "",
+    "seconds": 45,
+    "setLabel": ""
+  },
+  {
+    "type": "work",
+    "group": "Legs",
+    "name": "Single-Leg Calf Raises",
+    "cue": "Stand on step edge, full range of motion",
+    "seconds": 35,
+    "setLabel": "Set 4 of 4 \u00b7 20 / leg"
+  }
+]
+};
+initSession(PLAN);
+</script>
+</body>
+</html>

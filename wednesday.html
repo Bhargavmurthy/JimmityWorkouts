@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
+<title>Wednesday — Jimmity Workouts</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<meta name="theme-color" content="#0a0a0a">
+</head>
+<body>
+
+<div class="topbar">
+  <a class="back" href="index.html">← Back</a>
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">●</button>
+</div>
+
+<div class="wrap">
+  <div class="day-title">
+    <h1>Wednesday</h1>
+    <div class="meta">4K Run · Target ~25 min</div>
+  </div>
+
+  <div class="preview-list">
+    <div class="preview-item"><span class="pi-name">Easy Jog Warm-up</span><span class="pi-detail">3 min</span></div>
+    <div class="preview-item"><span class="pi-name">4K Run</span><span class="pi-detail">~25 min</span></div>
+    <div class="preview-item"><span class="pi-name">Walk & Stretch</span><span class="pi-detail">5 min</span></div>
+  </div>
+
+  <button class="start-btn" id="startBtn">Start Workout</button>
+</div>
+
+<div class="session" id="session">
+  <div class="session-top">
+    <span class="session-progress" id="sessionProgress">1 / 3</span>
+    <button class="exit-btn" id="exitBtn" aria-label="Exit">✕</button>
+  </div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+
+  <div class="session-body">
+    <span class="mode-tag" id="modeTag">Work</span>
+    <div class="ex-name" id="exName">—</div>
+    <div class="ex-cue" id="exCue"></div>
+    <div class="timer" id="timer">0:00</div>
+    <div class="set-info" id="setInfo"></div>
+    <div class="up-next" id="upNext">Up next</div>
+  </div>
+
+  <div class="session-controls">
+    <button class="ctrl-btn" id="skipBtn">Skip</button>
+    <button class="ctrl-btn primary" id="pauseBtn">Pause</button>
+  </div>
+</div>
+
+<div class="done-screen" id="doneScreen">
+  <h2>Done.</h2>
+  <p>Wednesday's work is in the bank.</p>
+  <a class="ctrl-btn primary" href="index.html">Back to Days</a>
+</div>
+
+<script src="assets/app.js"></script>
+<script>
+const PLAN = {
+  day: "Wednesday",
+  items: [
+  {
+    "type": "work",
+    "group": "Run",
+    "name": "Easy Jog Warm-up",
+    "cue": "Loosen up before you push pace",
+    "seconds": 180,
+    "setLabel": ""
+  },
+  {
+    "type": "work",
+    "group": "Run",
+    "name": "4K Run",
+    "cue": "Steady pace, aim for ~25 minutes",
+    "seconds": 1500,
+    "setLabel": "Target: ~25:00"
+  },
+  {
+    "type": "work",
+    "group": "Cool-Down",
+    "name": "Walk & Stretch",
+    "cue": "Bring heart rate down, stretch calves and hamstrings",
+    "seconds": 300,
+    "setLabel": ""
+  }
+]
+};
+initSession(PLAN);
+</script>
+</body>
+</html>

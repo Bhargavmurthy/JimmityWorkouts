@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
+<title>Monday — Jimmity Workouts</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<meta name="theme-color" content="#0a0a0a">
+</head>
+<body>
+
+<div class="topbar">
+  <a class="back" href="index.html">← Back</a>
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">●</button>
+</div>
+
+<div class="wrap">
+  <div class="day-title">
+    <h1>Monday</h1>
+    <div class="meta">Push · Strength & Core · ~60 min</div>
+  </div>
+
+  <div class="preview-list">
+    <div class="preview-item block-label"><span class="pi-name">Warm-Up</span></div>
+    <div class="preview-item"><span class="pi-name">Arm Circles &amp; Swings</span><span class="pi-detail">2 min</span></div>
+    <div class="preview-item"><span class="pi-name">Cat-Cow Stretches</span><span class="pi-detail">2 min</span></div>
+    <div class="preview-item"><span class="pi-name">Wrist Mobility</span><span class="pi-detail">2 min</span></div>
+    <div class="preview-item"><span class="pi-name">Incline / Wall Push-ups</span><span class="pi-detail">2×10</span></div>
+    <div class="preview-item block-label"><span class="pi-name">Main Strength</span></div>
+    <div class="preview-item"><span class="pi-name">Push-Up Progression</span><span class="pi-detail">4 sets</span></div>
+    <div class="preview-item"><span class="pi-name">Inverted Rows</span><span class="pi-detail">4×8–12</span></div>
+    <div class="preview-item"><span class="pi-name">Tricep Bench Dips</span><span class="pi-detail">3×8–12</span></div>
+    <div class="preview-item"><span class="pi-name">Pike Push-ups</span><span class="pi-detail">3×5–8</span></div>
+    <div class="preview-item"><span class="pi-name">Plank + Shoulder Taps</span><span class="pi-detail">3 sets</span></div>
+    <div class="preview-item block-label"><span class="pi-name">Cool-Down</span></div>
+    <div class="preview-item"><span class="pi-name">Stretch & Recover</span><span class="pi-detail">15 min</span></div>
+  </div>
+
+  <button class="start-btn" id="startBtn">Start Workout</button>
+</div>
+
+<div class="session" id="session">
+  <div class="session-top">
+    <span class="session-progress" id="sessionProgress">1 / 40</span>
+    <button class="exit-btn" id="exitBtn" aria-label="Exit">✕</button>
+  </div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+
+  <div class="session-body">
+    <span class="mode-tag" id="modeTag">Work</span>
+    <div class="ex-name" id="exName">—</div>
+    <div class="ex-cue" id="exCue"></div>
+    <div class="timer" id="timer">0:00</div>
+    <div class="set-info" id="setInfo"></div>
+    <div class="up-next" id="upNext">Up next</div>
+  </div>
+
+  <div class="session-controls">
+    <button class="ctrl-btn" id="skipBtn">Skip</button>
+    <button class="ctrl-btn primary" id="pauseBtn">Pause</button>
+  </div>
+</div>
+
+<div class="done-screen" id="doneScreen">
+  <h2>Done.</h2>
+  <p>Monday's work is in the bank.</p>
+  <a class="ctrl-btn primary" href="index.html">Back to Days</a>
+</div>
+
+<script src="assets/app.js"></script>
+<script>
+const PLAN = {
+  day: "Monday",
+  items: [
+  {
+    "type": "work",
+    "group": "Warm-Up",
+    "name": "Arm Circles & Cross-Body Swings",
+    "cue": "1 min forward/back, 1 min crossing arms",
+    "seconds": 120,
+    "setLabel": "Warm-up"
+  },
+  {
+    "type": "work",
+    "group": "Warm-Up",
+    "name": "Cat-Cow Stretches",
+    "cue": "Slowly arch and round your spine",
+    "seconds": 120,
+    "setLabel": "Warm-up"
+  },
+  {
+    "type": "work",
+    "group": "Warm-Up",
+    "name": "Wrist Mobility",
+    "cue": "Gentle circles and stretches, prep for push-ups",
+    "seconds": 120,
+    "setLabel": "Warm-up"
+  },
+  {
+    "type": "work",
+    "group": "Warm-Up",
+    "name": "Incline / Wall Push-ups",
+    "cue": "10 slow reps, get blood flowing",
+    "seconds": 30,
+    "setLabel": "Set 1 of 2 \u00b7 10 reps"
+  },
+  {
+    "type": "rest",
+    "name": "Rest",
+    "cue": "",
+    "seconds": 20,
+    "setLabel": ""
+  },
+  {
+    "type": "work",
+    "group": "Warm-Up",
+    "name": "Incline / Wall Push-ups",
+    "cue": "10 slow reps, get blood flowing",
+    "seconds": 30,
+    "setLabel": "Set 2 of 2 \u00b7 10 reps"
+  },
+  {
+    "type": "rest",
+    "name": "Get Ready",
+    "cue": "Main strength block starts now",
+    "seconds": 15,
+    "setLabel": ""
+  },
+  {
+    "type": "work",
+    "group": "Push",
+    "name": "Push-Up Progression",
+    "cue": "Close to your current max, pristine form",
+    "seconds": 45,
+    "setLabel": "Set 1 of 4 \u00b7 max clean reps"
+  },
+  {
+    "type": "rest",
+    "name": "Rest",
+    "cue": "Shake it out, breathe.",
+    "seconds": 90,
+    "setLabel": ""
+  },
+  {
+    "type": "work",
+    "group": "Push",
+    "name": "Push-Up Progression",
+    "cue": "Close to your current max, pristine form",
+    "seconds": 45,
+    "setLabel": "Set 2 of 4 \u00b7 max clean reps"
+  },
+  {
+    "type": "rest",
+    "name": "Rest",
+    "cue": "Shake it out, breathe.",
+    "seconds": 90,
+    "setLabel": ""
+  },
+  {
+    "type": "work",
+    "group": "Push",
+    "name": "Push-Up Progression",
+    "cue": "Close to your current max, pristine form",
+    "seconds": 45,
+    "setLabel": "Set 3 of 4 \u00b7 max clean reps"
+  },
+  {
+    "type": "rest",
+    "name": "Rest",
+    "cue": "Shake it out, breathe.",
+    "seconds": 90,
+    "setLabel": ""
+  },
+  {
+    "type": "work",
+    "group": "Push",
+    "name": "Push-Up Progression",
+    "cue": "Close to your current max, pristine form",
+    "seconds": 45,
+    "setLabel": "Set 4 of 4 \u00b7 max clean reps"
+  },
+  {
+    "type": "work",
+    "group": "Pull",
+    "name": "Inverted Rows",
+    "cue": "Pull chest to table edge or low bar",
+    "seconds": 45,
+    "setLabel": "Set 1 of 4 \u00b7 8\u201312 reps"
+  },
+  {
+    "type": "rest",
+    "name": "Rest",
+    "cue": "Shake it out, breathe.",
+    "seconds": 90,
+    "setLabel": ""
+  },
+  {
+    "type": "work",
+    "group": "Pull",
+    "name": "Inverted Rows",
+    "cue": "Pull chest to table edge or low bar",
+    "seconds": 45,
+    "setLabel": "Set 2 of 4 \u00b7 8\u201312 reps"
+  },
+  {
+    "type": "rest",
+    "name": "Rest",
+    "cue": "Shake it out, breathe.",
+    "seconds": 90,
+    "setLabel": ""
+  },
+  {
+    "type": "work",
+    "group": "Pull",
+    "name": "Inverted Rows",
+    "cue": "Pull chest to table edge or low bar",
+    "seconds": 45,
+    "setLabel": "Set 3 of 4 \u00b7 8\u201312 reps"
+  },
+  {
+    "type": "rest",
+    "name": "Rest",
+    "cue": "Shake it out, breathe.",
+    "seconds": 90,
+    "setLabel": ""
+  },
+  {
+    "type": "work",
+    "group": "Pull",
+    "name": "Inverted Rows",
+    "cue": "Pull chest to table edge or low bar",
+    "seconds": 45,
+    "setLabel": "Set 4 of 4 \u00b7 8\u201312 reps"
+  },
+  {
+    "type": "work",
+    "group": "Push",
+    "name": "Tricep Bench Dips",
+    "cue": "Use a chair or bench",
+    "seconds": 45,
+    "setLabel": "Set 1 of 3 \u00b7 8\u201312 reps"
+  },
+  {
+    "type": "rest",
+    "name": "Rest",
+    "cue": "Shake it out, breathe.",
+    "seconds": 60,
+    "setLabel": ""
+  },
+  {
+    "type": "work",
+    "group": "Push",
+    "name": "Tricep Bench Dips",
+    "cue": "Use a chair or bench",
+    "seconds": 45,
+    "setLabel": "Set 2 of 3 \u00b7 8\u201312 reps"
+  },
+  {
+    "type": "rest",
+    "name": "Rest",
+    "cue": "Shake it out, breathe.",
+    "seconds": 60,
+    "setLabel": ""
+  },
+  {
+    "type": "work",
+    "group": "Push",
+    "name": "Tricep Bench Dips",
+    "cue": "Use a chair or bench",
+    "seconds": 45,
+    "setLabel": "Set 3 of 3 \u00b7 8\u201312 reps"
+  },
+  {
+    "type": "work",
+    "group": "Push",
+    "name": "Pike Push-ups",
+    "cue": "Hips high, lower head toward floor",
+    "seconds": 45,
+    "setLabel": "Set 1 of 3 \u00b7 5\u20138 reps"
+  },
+  {
+    "type": "rest",
+    "name": "Rest",
+    "cue": "Shake it out, breathe.",
+    "seconds": 60,
+    "setLabel": ""
+  },
+  {
+    "type": "work",
+    "group": "Push",
+    "name": "Pike Push-ups",
+    "cue": "Hips high, lower head toward floor",
+    "seconds": 45,
+    "setLabel": "Set 2 of 3 \u00b7 5\u20138 reps"
+  },
+  {
+    "type": "rest",
+    "name": "Rest",
+    "cue": "Shake it out, breathe.",
+    "seconds": 60,
+    "setLabel": ""
+  },
+  {
+    "type": "work",
+    "group": "Push",
+    "name": "Pike Push-ups",
+    "cue": "Hips high, lower head toward floor",
+    "seconds": 45,
+    "setLabel": "Set 3 of 3 \u00b7 5\u20138 reps"
+  },
+  {
+    "type": "work",
+    "group": "Core",
+    "name": "Forearm Plank",
+    "cue": "Hold steady, brace your core",
+    "seconds": 45,
+    "setLabel": "Set 1 of 3"
+  },
+  {
+    "type": "work",
+    "group": "Core",
+    "name": "Alternating Shoulder Taps",
+    "cue": "20 taps, keep hips still",
+    "seconds": 25,
+    "setLabel": "Set 1 of 3 \u00b7 20 taps"
+  },
+  {
+    "type": "rest",
+    "name": "Rest",
+    "cue": "",
+    "seconds": 45,
+    "setLabel": ""
+  },
+  {
+    "type": "work",
+    "group": "Core",
+    "name": "Forearm Plank",
+    "cue": "Hold steady, brace your core",
+    "seconds": 45,
+    "setLabel": "Set 2 of 3"
+  },
+  {
+    "type": "work",
+    "group": "Core",
+    "name": "Alternating Shoulder Taps",
+    "cue": "20 taps, keep hips still",
+    "seconds": 25,
+    "setLabel": "Set 2 of 3 \u00b7 20 taps"
+  },
+  {
+    "type": "rest",
+    "name": "Rest",
+    "cue": "",
+    "seconds": 45,
+    "setLabel": ""
+  },
+  {
+    "type": "work",
+    "group": "Core",
+    "name": "Forearm Plank",
+    "cue": "Hold steady, brace your core",
+    "seconds": 45,
+    "setLabel": "Set 3 of 3"
+  },
+  {
+    "type": "work",
+    "group": "Core",
+    "name": "Alternating Shoulder Taps",
+    "cue": "20 taps, keep hips still",
+    "seconds": 25,
+    "setLabel": "Set 3 of 3 \u00b7 20 taps"
+  },
+  {
+    "type": "work",
+    "group": "Cool-Down",
+    "name": "Cool-Down & Stretch",
+    "cue": "Lower your heart rate, stretch chest, shoulders, back, and triceps",
+    "seconds": 900,
+    "setLabel": "15 minutes"
+  }
+]
+};
+initSession(PLAN);
+</script>
+</body>
+</html>

@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
+<title>Thursday — Jimmity Workouts</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<meta name="theme-color" content="#0a0a0a">
+</head>
+<body>
+
+<div class="topbar">
+  <a class="back" href="index.html">← Back</a>
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">●</button>
+</div>
+
+<div class="wrap">
+  <div class="day-title">
+    <h1>Thursday</h1>
+    <div class="meta">Handstand & L-Sit Skill · ~40 min</div>
+  </div>
+
+  <div class="preview-list">
+    <div class="preview-item block-label"><span class="pi-name">Alignment Prep</span></div>
+    <div class="preview-item"><span class="pi-name">PPT Lie-Downs</span><span class="pi-detail">3×10 · 3 sec hold</span></div>
+    <div class="preview-item"><span class="pi-name">Tailbone-Lift Plank</span><span class="pi-detail">2×20 sec</span></div>
+    <div class="preview-item block-label"><span class="pi-name">L-Sit Compression</span></div>
+    <div class="preview-item"><span class="pi-name">Seated Pike Compressions</span><span class="pi-detail">4×10–12</span></div>
+    <div class="preview-item"><span class="pi-name">Single-Leg L-Sit Floor Lifts</span><span class="pi-detail">3×8/leg</span></div>
+    <div class="preview-item block-label"><span class="pi-name">HIIT Finisher</span></div>
+    <div class="preview-item"><span class="pi-name">Handstand Sim + Fast Tucks</span><span class="pi-detail">4 rounds EMOM</span></div>
+    <div class="preview-item block-label"><span class="pi-name">L-Sit Hold</span></div>
+    <div class="preview-item"><span class="pi-name">Floor L-Sit (Butt-Only)</span><span class="pi-detail">3×15 sec</span></div>
+  </div>
+
+  <button class="start-btn" id="startBtn">Start Workout</button>
+</div>
+
+<div class="session" id="session">
+  <div class="session-top">
+    <span class="session-progress" id="sessionProgress">1 / 45</span>
+    <button class="exit-btn" id="exitBtn" aria-label="Exit">✕</button>
+  </div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+
+  <div class="session-body">
+    <span class="mode-tag" id="modeTag">Work</span>
+    <div class="ex-name" id="exName">—</div>
+    <div class="ex-cue" id="exCue"></div>
+    <div class="timer" id="timer">0:00</div>
+    <div class="set-info" id="setInfo"></div>
+    <div class="up-next" id="upNext">Up next</div>
+  </div>
+
+  <div class="session-controls">
+    <button class="ctrl-btn" id="skipBtn">Skip</button>
+    <button class="ctrl-btn primary" id="pauseBtn">Pause</button>
+  </div>
+</div>
+
+<div class="done-screen" id="doneScreen">
+  <h2>Done.</h2>
+  <p>Thursday's work is in the bank.</p>
+  <a class="ctrl-btn primary" href="index.html">Back to Days</a>
+</div>
+
+<script src="assets/app.js"></script>
+<script>
+const PLAN = {
+  day: "Thursday",
+  items: [
+  {
+    "type": "rest",
+    "name": "Get Ready",
+    "cue": "Handstand & L-Sit skill day",
+    "seconds": 15,
+    "setLabel": ""
+  },
+  {
+    "type": "work",
+    "group": "Alignment Prep",
+    "name": "Posterior Pelvic Tilt Lie-Downs",
+    "cue": "Crush your hands against the floor, hold 3 sec",
+    "seconds": 30,
+    "setLabel": "Set 1 of 3 \u00b7 10 reps"
+  },
+  {
+    "type": "rest",
+    "name": "Rest",
+    "cue": "",
+    "seconds": 20,
+    "setLabel": ""
+  },
+  {
+    "type": "work",
+    "group": "Alignment Prep",
+    "name": "Posterior Pelvic Tilt Lie-Downs",
+    "cue": "Crush your hands against the floor, hold 3 sec",
+    "seconds": 30,
+    "setLabel": "Set 2 of 3 \u00b7 10 reps"
+  },
+  {
+    "type": "rest",
+    "name": "Rest",
+    "cue": "",
+    "seconds": 20,
+    "setLabel": ""
+  },
+  {
+    "type": "work",
+    "group": "Alignment Prep",
+    "name": "Posterior Pelvic Tilt Lie-Downs",
+    "cue": "Crush your hands against the floor, hold 3 sec",
+    "seconds": 30,
+    "setLabel": "Set 3 of 3 \u00b7 10 reps"
+  },
+  {
+    "type": "work",
+    "group": "Alignment Prep",
+    "name": "Tailbone-Lift Plank Warm-up",
+    "cue": "Tuck tailbone under, belly button to spine",
+    "seconds": 20,
+    "setLabel": "Set 1 of 2"
+  },
+  {
+    "type": "rest",
+    "name": "Rest",
+    "cue": "",
+    "seconds": 20,
+    "setLabel": ""
+  },
+  {
+    "type": "work",
+    "group": "Alignment Prep",
+    "name": "Tailbone-Lift Plank Warm-up",
+    "cue": "Tuck tailbone under, belly button to spine",
+    "seconds": 20,
+    "setLabel": "Set 2 of 2"
+  },
+  {
+    "type": "rest",
+    "name": "Get Ready",
+    "cue": "L-Sit Compression Strength",
+    "seconds": 15,
+    "setLabel": ""
+  },
+  {
+    "type": "work",
+    "group": "L-Sit Compression",
+    "name": "Seated Pike Compressions",
+    "cue": "Knees locked, toes pointed, lift both legs with your abs",
+    "seconds": 35,
+    "setLabel": "Set 1 of 4 \u00b7 10\u201312 reps"
+  },
+  {
+    "type": "rest",
+    "name": "Rest",
+    "cue": "",
+    "seconds": 60,
+    "setLabel": ""
+  },
+  {
+    "type": "work",
+    "group": "L-Sit Compression",
+    "name": "Seated Pike Compressions",
+    "cue": "Knees locked, toes pointed, lift both legs with your abs",
+    "seconds": 35,
+    "setLabel": "Set 2 of 4 \u00b7 10\u201312 reps"
+  },
+  {
+    "type": "rest",
+    "name": "Rest",
+    "cue": "",
+    "seconds": 60,
+    "setLabel": ""
+  },
+  {
+    "type": "work",
+    "group": "L-Sit Compression",
+    "name": "Seated Pike Compressions",
+    "cue": "Knees locked, toes pointed, lift both legs with your abs",
+    "seconds": 35,
+    "setLabel": "Set 3 of 4 \u00b7 10\u201312 reps"
+  },
+  {
+    "type": "rest",
+    "name": "Rest",
+    "cue": "",
+    "seconds": 60,
+    "setLabel": ""
+  },
+  {
+    "type": "work",
+    "group": "L-Sit Compression",
+    "name": "Seated Pike Compressions",
+    "cue": "Knees locked, toes pointed, lift both legs with your abs",
+    "seconds": 35,
+    "setLabel": "Set 4 of 4 \u00b7 10\u201312 reps"
+  },
+  {
+    "type": "work",
+    "group": "L-Sit Compression",
+    "name": "Single-Leg L-Sit Floor Lifts",
+    "cue": "Lean forward, lift right leg, hold 2 sec, switch sides",
+    "seconds": 40,
+    "setLabel": "Set 1 of 3 \u00b7 8 reps/leg"
+  },
+  {
+    "type": "rest",
+    "name": "Rest",
+    "cue": "",
+    "seconds": 45,
+    "setLabel": ""
+  },
+  {
+    "type": "work",
+    "group": "L-Sit Compression",
+    "name": "Single-Leg L-Sit Floor Lifts",
+    "cue": "Lean forward, lift right leg, hold 2 sec, switch sides",
+    "seconds": 40,
+    "setLabel": "Set 2 of 3 \u00b7 8 reps/leg"
+  },
+  {
+    "type": "rest",
+    "name": "Rest",
+    "cue": "",
+    "seconds": 45,
+    "setLabel": ""
+  },
+  {
+    "type": "work",
+    "group": "L-Sit Compression",
+    "name": "Single-Leg L-Sit Floor Lifts",
+    "cue": "Lean forward, lift right leg, hold 2 sec, switch sides",
+    "seconds": 40,
+    "setLabel": "Set 3 of 3 \u00b7 8 reps/leg"
+  },
+  {
+    "type": "rest",
+    "name": "Get Ready",
+    "cue": "HIIT Finisher \u2014 4 rounds EMOM",
+    "seconds": 15,
+    "setLabel": ""
+  },
+  {
+    "type": "work",
+    "group": "HIIT Finisher",
+    "name": "Hollow Body Handstand Simulation",
+    "cue": "Arms straight overhead, lower back flat, hold tight line",
+    "seconds": 35,
+    "setLabel": "Round 1 of 4"
+  },
+  {
+    "type": "rest",
+    "name": "Rest",
+    "cue": "Remainder of the minute",
+    "seconds": 25,
+    "setLabel": ""
+  },
+  {
+    "type": "work",
+    "group": "HIIT Finisher",
+    "name": "Straddle-to-Pike Fast Tucks",
+    "cue": "Knees to chest, out to straddle, in to pike \u2014 fast pace",
+    "seconds": 45,
+    "setLabel": "Round 1 of 4"
+  },
+  {
+    "type": "rest",
+    "name": "Rest",
+    "cue": "",
+    "seconds": 15,
+    "setLabel": ""
+  },
+  {
+    "type": "work",
+    "group": "HIIT Finisher",
+    "name": "Hollow Body Handstand Simulation",
+    "cue": "Arms straight overhead, lower back flat, hold tight line",
+    "seconds": 35,
+    "setLabel": "Round 2 of 4"
+  },
+  {
+    "type": "rest",
+    "name": "Rest",
+    "cue": "Remainder of the minute",
+    "seconds": 25,
+    "setLabel": ""
+  },
+  {
+    "type": "work",
+    "group": "HIIT Finisher",
+    "name": "Straddle-to-Pike Fast Tucks",
+    "cue": "Knees to chest, out to straddle, in to pike \u2014 fast pace",
+    "seconds": 45,
+    "setLabel": "Round 2 of 4"
+  },
+  {
+    "type": "rest",
+    "name": "Rest",
+    "cue": "",
+    "seconds": 15,
+    "setLabel": ""
+  },
+  {
+    "type": "work",
+    "group": "HIIT Finisher",
+    "name": "Hollow Body Handstand Simulation",
+    "cue": "Arms straight overhead, lower back flat, hold tight line",
+    "seconds": 35,
+    "setLabel": "Round 3 of 4"
+  },
+  {
+    "type": "rest",
+    "name": "Rest",
+    "cue": "Remainder of the minute",
+    "seconds": 25,
+    "setLabel": ""
+  },
+  {
+    "type": "work",
+    "group": "HIIT Finisher",
+    "name": "Straddle-to-Pike Fast Tucks",
+    "cue": "Knees to chest, out to straddle, in to pike \u2014 fast pace",
+    "seconds": 45,
+    "setLabel": "Round 3 of 4"
+  },
+  {
+    "type": "rest",
+    "name": "Rest",
+    "cue": "",
+    "seconds": 15,
+    "setLabel": ""
+  },
+  {
+    "type": "work",
+    "group": "HIIT Finisher",
+    "name": "Hollow Body Handstand Simulation",
+    "cue": "Arms straight overhead, lower back flat, hold tight line",
+    "seconds": 35,
+    "setLabel": "Round 4 of 4"
+  },
+  {
+    "type": "rest",
+    "name": "Rest",
+    "cue": "Remainder of the minute",
+    "seconds": 25,
+    "setLabel": ""
+  },
+  {
+    "type": "work",
+    "group": "HIIT Finisher",
+    "name": "Straddle-to-Pike Fast Tucks",
+    "cue": "Knees to chest, out to straddle, in to pike \u2014 fast pace",
+    "seconds": 45,
+    "setLabel": "Round 4 of 4"
+  },
+  {
+    "type": "rest",
+    "name": "Rest",
+    "cue": "",
+    "seconds": 15,
+    "setLabel": ""
+  },
+  {
+    "type": "rest",
+    "name": "Get Ready",
+    "cue": "L-Sit Low-Anchor Hold",
+    "seconds": 15,
+    "setLabel": ""
+  },
+  {
+    "type": "work",
+    "group": "L-Sit Hold",
+    "name": "Floor L-Sit (Butt-Only Lift)",
+    "cue": "Palms down, elbows locked, pull hips back through your arms",
+    "seconds": 15,
+    "setLabel": "Set 1 of 3"
+  },
+  {
+    "type": "rest",
+    "name": "Rest",
+    "cue": "",
+    "seconds": 45,
+    "setLabel": ""
+  },
+  {
+    "type": "work",
+    "group": "L-Sit Hold",
+    "name": "Floor L-Sit (Butt-Only Lift)",
+    "cue": "Palms down, elbows locked, pull hips back through your arms",
+    "seconds": 15,
+    "setLabel": "Set 2 of 3"
+  },
+  {
+    "type": "rest",
+    "name": "Rest",
+    "cue": "",
+    "seconds": 45,
+    "setLabel": ""
+  },
+  {
+    "type": "work",
+    "group": "L-Sit Hold",
+    "name": "Floor L-Sit (Butt-Only Lift)",
+    "cue": "Palms down, elbows locked, pull hips back through your arms",
+    "seconds": 15,
+    "setLabel": "Set 3 of 3"
+  }
+]
+};
+initSession(PLAN);
+</script>
+</body>
+</html>
